@@ -104,8 +104,9 @@ namespace MexTK.FighterFunction
                             includesStr = $"-I{String.Join(" -I", includeList.ToArray())}";
                         }
 
-                        // add -g for debug symbols
-                        p.StartInfo.Arguments = $"-MMD -MP -MF \"{outputPathD}\" {(debugSymbols ? "-g" : "")} {(disableWarnings ? "-w" : "")} -O{optimizationLevel} -Wall -DGEKKO -mogc -mcpu=750 -meabi -mhard-float {includesStr} -c \"{input}\" -o \"{outputPath}\" -fpermissive";// -Wno-unused-variable";
+                        var warningFlags = "-Wall -Wextra -Wno-unused-variable -Wno-unused-function -Wno-builtin-declaration-mismatch";
+
+                        p.StartInfo.Arguments = $"-MMD -MP -MF \"{outputPathD}\" {(debugSymbols ? "-g" : "")} {(disableWarnings ? "-w" : "")} -O{optimizationLevel} {warningFlags} -DGEKKO -mogc -mcpu=750 -meabi -mhard-float {includesStr} -c \"{input}\" -o \"{outputPath}\" -fpermissive";
 
 
                         System.Diagnostics.Debug.WriteLine(p.StartInfo.Arguments);
